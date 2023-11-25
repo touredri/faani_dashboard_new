@@ -5,15 +5,19 @@ part 'env.g.dart';
 @Envied(path: '.env')
 abstract class Env{
   @EnviedField(varName: 'API_KEY')
-  static const apiKey = _Env.apiKey;
+  static const String apiKey = _Env.apiKey;
   @EnviedField(varName: 'APP_ID')
-  static const appId = _Env.appId;
+  static const String appId = _Env.appId;
   @EnviedField(varName: 'MESSAGING_SENDER_ID')
-  static const messagingSenderId = _Env.messagingSenderId;
+  static const String messagingSenderId = _Env.messagingSenderId;
   @EnviedField(varName: 'PROJECT_ID')
-  static const projectId = _Env.projectId;
+  static const String projectId = _Env.projectId;
   @EnviedField(varName: 'AUTH_DOMAIN')
-  static const authDomain = _Env.authDomain;
+  static const String authDomain = _Env.authDomain;
   @EnviedField(varName: 'STORAGE_BUCKET')
-  static const storageBucket = _Env.storageBucket;
+  static const String storageBucket = _Env.storageBucket;
+  @EnviedField(varName: 'ADMIN_EMAIL')
+  static const String adminEmail = _Env.adminEmail;
+  @EnviedField(varName: 'ADMIN_PASSWORD')
+  static const String adminPassword = _Env.adminPassword;
 }

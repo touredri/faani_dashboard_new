@@ -24,9 +24,6 @@ void main(List<String> args) async {
           projectId: Env.projectId,
           authDomain: Env.authDomain,
           storageBucket: Env.storageBucket));
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
   Get.put(menu_controller.MenuController());
   Get.put(NavigationController());
   runApp(const MyApp());

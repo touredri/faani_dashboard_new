@@ -1,19 +1,16 @@
-import 'package:get/get.dart';
-import '../constants/constants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:faani_dashboard/env/env.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-final connect = GetConnect();
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
-Future userSignup(String username, String email, String password) async {
+Future userSignup(String email, String password) async {
   try {
-    var result = await connect.post(
-      '${Constants.localHost}/signup',
-      {
-        'username': username, 
-        'email': email, 
-        'password': password,
-      },
+    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
     );
-    return result.body;
+    return userCredential.user;
   } catch (e) {
     return e.toString();
   }
@@ -21,15 +18,40 @@ Future userSignup(String username, String email, String password) async {
 
 Future userLogin(String email, String password) async {
   try {
-    var result = await connect.post(
-      '${Constants.localHost}/login',
-      {
-        'email': email, 
-        'password': password,
-      },
+    UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
     );
-    return result.body;
+    return userCredential.user;
   } catch (e) {
     return e.toString();
+  }
+}
+
+Future<void> isAdmin(String userEmail) async {
+  final docSnapshot =
+      await FirebaseFirestore.instance.collection('admin').doc(userEmail).get();
+  if (docSnapshot.exists) {
+    Map<String, dynamic>? data = docSnapshot.data();
+    return;
+  } else {
+    // Create an admin user if no admin user exists
+    // Create an admin user in Firebase Authentication if no admin user exists
+    UserCredential userCredential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: userEmail,
+      password: Env.adminPassword,
+    );
+    if (userCredential.user != null) {
+      await userCredential.user!.sendEmailVerification();
+      await userCredential.user!.linkWithPhoneNumber('+22393734481');
+    }
+    // Create an admin user in Firestore
+    await FirebaseFirestore.instance.collection('admin').doc(userEmail).set({
+      'role': 'admin',
+      'email': userEmail,
+      'name': 'Drissa',
+      'surname': 'Touré'
+    });
   }
 }
