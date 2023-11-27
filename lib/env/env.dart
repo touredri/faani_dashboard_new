@@ -21,3 +21,6 @@ abstract class Env{
   @EnviedField(varName: 'ADMIN_PASSWORD')
   static const String adminPassword = _Env.adminPassword;
 }
+
+// run this after config
+// flutter pub run build_runner build --delete-conflicting-outputs

@@ -6,6 +6,7 @@ import 'package:faani_dashboard/controllers/register_controller.dart';
 import 'package:faani_dashboard/routing/routes.dart';
 import 'package:faani_dashboard/constants/controllers.dart';
 import 'package:faani_dashboard/constants/style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:faani_dashboard/widgets/custom_text.dart';
@@ -100,15 +101,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Row(
-              //   children: [
-              //     const Padding(
-              //       padding: EdgeInsets.only(right: 12),
-              //       child: Text('Faani'),
-              //     ),
-              //     Expanded(child: Container()),
-              //   ],
-              // ),
               const SizedBox(
                 height: 30,
               ),
@@ -254,10 +246,20 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
 
                   try {
                     //custom auth
-                    var result = await userLogin(
+                    User? result = await userLogin(
                         registerController.emailController.text,
                         registerController.passwordController.text);
-                    String msg = result.toString();
+                    String msg = "Email ou mot de passe incorrect";
+                    //custom auth
+                    if (result != null) {
+                      setState(() {
+                        msg = Constants.loginOk;
+                      });
+                      menuController
+                          .changeActiveItemTo(overViewPageDisplayName);
+                      Get.offAllNamed(rootRoute);
+                    }
+
                     var snackbar = SnackBar(
                         width: 500,
                         padding: const EdgeInsets.all(10),
@@ -285,14 +287,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                           ),
                         ));
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
-
-                    //custom auth
-                    if (result != null) {
-                      msg = Constants.loginOk;
-                      menuController
-                          .changeActiveItemTo(overViewPageDisplayName);
-                      Get.offAllNamed(rootRoute);
-                    }
                   } catch (e) {
                     var snackbar = const SnackBar(
                         width: 500,

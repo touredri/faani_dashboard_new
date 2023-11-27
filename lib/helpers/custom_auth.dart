@@ -16,23 +16,22 @@ Future userSignup(String email, String password) async {
   }
 }
 
-Future userLogin(String email, String password) async {
+Future<User?> userLogin(String email, String password) async {
   try {
     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
-    return userCredential.user;
+    return userCredential.user!;
   } catch (e) {
-    return e.toString();
+    return null;
   }
 }
 
 Future<void> isAdmin(String userEmail) async {
   final docSnapshot =
-      await FirebaseFirestore.instance.collection('admin').doc(userEmail).get();
-  if (docSnapshot.exists) {
-    Map<String, dynamic>? data = docSnapshot.data();
+      await FirebaseFirestore.instance.collection('admin').get();
+  if (docSnapshot.docs.isNotEmpty) {
     return;
   } else {
     // Create an admin user if no admin user exists
@@ -43,15 +42,16 @@ Future<void> isAdmin(String userEmail) async {
       password: Env.adminPassword,
     );
     if (userCredential.user != null) {
-      await userCredential.user!.sendEmailVerification();
-      await userCredential.user!.linkWithPhoneNumber('+22393734481');
+        await FirebaseFirestore.instance
+            .collection('admin')
+            .doc(userEmail)
+            .set({
+          'role': 'admin',
+          'email': userEmail,
+          'name': 'Drissa',
+          'surname': 'Touré'
+        });
+        await userCredential.user!.linkWithPhoneNumber('+22393734481');
     }
-    // Create an admin user in Firestore
-    await FirebaseFirestore.instance.collection('admin').doc(userEmail).set({
-      'role': 'admin',
-      'email': userEmail,
-      'name': 'Drissa',
-      'surname': 'Touré'
-    });
   }
 }

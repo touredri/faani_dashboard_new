@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
             page: () => const AuthenticationPage()),
       ],
       debugShowCheckedModeBanner: false,
-      title: "Admin Panel",
+      title: "Faani Dashboard",
       theme: ThemeData(
         scaffoldBackgroundColor: light,
         textTheme: GoogleFonts.mulishTextTheme(
