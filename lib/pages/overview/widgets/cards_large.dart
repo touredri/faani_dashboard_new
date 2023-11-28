@@ -1,10 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faani_dashboard/constants/constants.dart';
-import 'package:faani_dashboard/controllers/customers_controller.dart';
-import 'package:faani_dashboard/controllers/products_controller.dart';
+import 'package:faani_dashboard/controllers/clients_controller.dart';
+import 'package:faani_dashboard/controllers/commandes_controller.dart';
+import 'package:faani_dashboard/controllers/modeles_controller.dart';
+import 'package:faani_dashboard/controllers/tailleurs_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:faani_dashboard/pages/overview/widgets/info_card.dart';
 import 'package:get/get.dart';
-import '../../../models/product.dart';
+import '../../../controllers/logged_user_controller.dart';
+import '../../../models/logged_user.dart';
 
 class OverviewCardsLargeScreen extends StatefulWidget {
   const OverviewCardsLargeScreen({
@@ -17,44 +21,45 @@ class OverviewCardsLargeScreen extends StatefulWidget {
 }
 
 class _OverviewCardsLargeScreenState extends State<OverviewCardsLargeScreen> {
-  final CustomersController customersController =
-      Get.put(CustomersController());
-
-  final ProductsController productsController = Get.put(ProductsController());
+  final ModeleController modeleController = Get.put(ModeleController());
+  final CommandeController commandeController = Get.put(CommandeController());
+  final TailleurController tailleuController = Get.put(TailleurController());
+  final ClientController clientsController = Get.put(ClientController());
 
   @override
   void initState() {
     super.initState();
-    productsController.fetchProducts();
-    customersController.fetchCustomers();
+    modeleController.fetchModeles();
+    commandeController.fetchCommandes();
+    tailleuController.fetchTailleurs();
+    clientsController.fetchClient();
+    uerFetch();
+  }
+
+  void uerFetch() async {
+    LoggedUserController loggedUserController = Get.put(LoggedUserController());
+    LoggedUser user = LoggedUser();
+    DocumentSnapshot<Map<String, dynamic>> docSnapshot = await FirebaseFirestore
+        .instance
+        .collection('admin')
+        .doc('dcompte223@gmail.com')
+        .get();
+    Map<String, dynamic> data = docSnapshot.data()!;
+    user.uid = data['uid'];
+    user.email = data['email'];
+    user.name = data['name'];
+    user.imageUrl = data['imageUrl'] ?? '';
+    loggedUserController.loggedUser = user;
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-
-    int calculateTotalStock(List<Product> stock) {
-      int totalStock = 0;
-      for (int i = 0; i < productsController.products.length; i++) {
-        totalStock += productsController.products[i].stock!;
-      }
-      return totalStock;
-    }
-
-    int calculateTotalValue(List<Product> stock) {
-      int totalValue = 0;
-      for (int i = 0; i < productsController.products.length; i++) {
-        totalValue += productsController.products[i].stock! *
-            productsController.products[i].price!;
-      }
-      return totalValue;
-    }
-
     return Obx(() => Row(
           children: [
             InfoCard(
-              title: Constants.totalStock,
-              value: calculateTotalStock(productsController.products),
+              title: Constants.totalModele,
+              value: modeleController.modeles.length,
               onTap: () {},
               topColor: Colors.orange,
             ),
@@ -62,8 +67,8 @@ class _OverviewCardsLargeScreenState extends State<OverviewCardsLargeScreen> {
               width: width / 64,
             ),
             InfoCard(
-              title: Constants.valueOfStock,
-              value: calculateTotalValue(productsController.products),
+              title: Constants.totalCommande,
+              value: commandeController.commandes.length,
               topColor: Colors.lightGreen,
               onTap: () {},
             ),
@@ -71,8 +76,8 @@ class _OverviewCardsLargeScreenState extends State<OverviewCardsLargeScreen> {
               width: width / 64,
             ),
             InfoCard(
-              title: Constants.productsCount,
-              value: productsController.products.length,
+              title: Constants.totalTailleur,
+              value: tailleuController.tailleur.length,
               topColor: Colors.redAccent,
               onTap: () {},
             ),
@@ -80,8 +85,8 @@ class _OverviewCardsLargeScreenState extends State<OverviewCardsLargeScreen> {
               width: width / 64,
             ),
             InfoCard(
-              title: Constants.customerCount,
-              value: customersController.customers.length,
+              title: Constants.totalClient,
+              value: clientsController.clients.length,
               onTap: () {},
             ),
           ],

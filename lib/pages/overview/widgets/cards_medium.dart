@@ -1,4 +1,8 @@
 import 'package:faani_dashboard/constants/constants.dart';
+import 'package:faani_dashboard/controllers/clients_controller.dart';
+import 'package:faani_dashboard/controllers/commandes_controller.dart';
+import 'package:faani_dashboard/controllers/modeles_controller.dart';
+import 'package:faani_dashboard/controllers/tailleurs_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:faani_dashboard/pages/overview/widgets/info_card.dart';
 import 'package:get/get.dart';
@@ -16,38 +20,42 @@ class OverviewCardsMediumScreen extends StatefulWidget {
 }
 
 class _OverviewCardsMediumScreenState extends State<OverviewCardsMediumScreen> {
-  final CustomersController customersController =
-      Get.put(CustomersController());
-
-  final ProductsController productsController = Get.put(ProductsController());
+  final ModeleController modeleController = Get.put(ModeleController());
+  final CommandeController commandeController = Get.put(CommandeController());
+  final TailleurController tailleuController = Get.put(TailleurController());
+  final ClientController clientsController = Get.put(ClientController());
 
   @override
   void initState() {
     super.initState();
-    productsController.fetchProducts();
-    customersController.fetchCustomers();
+    // productsController.fetchProducts();
+    // customersController.fetchCustomers();
+    modeleController.fetchModeles();
+    commandeController.fetchCommandes();
+    tailleuController.fetchTailleurs();
+    clientsController.fetchClient();
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
-    int calculateTotalStock(List<Product> stock) {
-      int totalStock = 0;
-      for (int i = 0; i < productsController.products.length; i++) {
-        totalStock += productsController.products[i].stock!;
-      }
-      return totalStock;
-    }
+    // int calculateTotalStock(List<Product> stock) {
+    //   int totalStock = 0;
+    //   for (int i = 0; i < productsController.products.length; i++) {
+    //     totalStock += productsController.products[i].stock!;
+    //   }
+    //   return totalStock;
+    // }
 
-    int calculateTotalValue(List<Product> stock) {
-      int totalValue = 0;
-      for (int i = 0; i < productsController.products.length; i++) {
-        totalValue += productsController.products[i].stock! *
-            productsController.products[i].price!;
-      }
-      return totalValue;
-    }
+    // int calculateTotalValue(List<Product> stock) {
+    //   int totalValue = 0;
+    //   for (int i = 0; i < productsController.products.length; i++) {
+    //     totalValue += productsController.products[i].stock! *
+    //         productsController.products[i].price!;
+    //   }
+    //   return totalValue;
+    // }
 
     return Obx(() => Column(
           mainAxisSize: MainAxisSize.min,
@@ -55,8 +63,8 @@ class _OverviewCardsMediumScreenState extends State<OverviewCardsMediumScreen> {
             Row(
               children: [
                 InfoCard(
-                  title: Constants.totalStock,
-                  value: calculateTotalStock(productsController.products),
+                  title: Constants.totalModele,
+                  value: modeleController.modeles.length,
                   onTap: () {},
                   topColor: Colors.orange,
                 ),
@@ -64,8 +72,8 @@ class _OverviewCardsMediumScreenState extends State<OverviewCardsMediumScreen> {
                   width: width / 64,
                 ),
                 InfoCard(
-                  title: Constants.valueOfStock,
-                  value: calculateTotalValue(productsController.products),
+                  title: Constants.totalCommande,
+                  value: commandeController.commandes.length,
                   topColor: Colors.lightGreen,
                   onTap: () {},
                 ),
@@ -77,8 +85,8 @@ class _OverviewCardsMediumScreenState extends State<OverviewCardsMediumScreen> {
             Row(
               children: [
                 InfoCard(
-                  title: Constants.productsCount,
-                  value: productsController.products.length,
+                  title: Constants.totalTailleur,
+                  value: tailleuController.tailleur.length,
                   topColor: Colors.redAccent,
                   onTap: () {},
                 ),
@@ -86,8 +94,8 @@ class _OverviewCardsMediumScreenState extends State<OverviewCardsMediumScreen> {
                   width: width / 64,
                 ),
                 InfoCard(
-                  title: Constants.customerCount,
-                  value: customersController.customers.length,
+                  title: Constants.totalClient,
+                  value: clientsController.clients.length,
                   onTap: () {},
                 ),
               ],

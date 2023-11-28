@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:faani_dashboard/constants/style.dart';
 import 'package:faani_dashboard/helpers/responsiveness.dart';
@@ -8,7 +9,8 @@ import 'package:image_network/image_network.dart';
 
 final LoggedUserController _loggedUserController = Get.find();
 
-AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
+AppBar topNavigationBar(
+        BuildContext context, GlobalKey<ScaffoldState> key, name) =>
     AppBar(
       leading: !ResponsiveWidget.isSmallScreen(context)
           ? Row(
@@ -32,7 +34,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           Visibility(
               visible: !ResponsiveWidget.isSmallScreen(context),
               child: CustomText(
-                text: "Admin Panel",
+                text: "Faani Dashboard",
                 color: lightGray,
                 size: 20,
                 weight: FontWeight.bold,
@@ -77,9 +79,9 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
           ),
           if (!ResponsiveWidget.isSmallScreen(context))
             Obx(() => CustomText(
-                  text: _loggedUserController.loggedUser.name ?? "User Name",
-                  color: lightGray,
-                )),
+              text: Get.find<LoggedUserController>().loggedUser.name ?? "Admin",
+              color: lightGray,
+            )),
           const SizedBox(
             width: 16,
           ),
@@ -93,9 +95,9 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                     borderRadius: BorderRadius.circular(30)),
                 padding: const EdgeInsets.all(2),
                 margin: const EdgeInsets.all(2),
-                child: Obx(() => CircleAvatar(
+                child: CircleAvatar(
                     backgroundColor: light,
-                    child: _loggedUserController.loggedUser.imageUrl == null
+                    child: FirebaseAuth.instance.currentUser!.photoURL == null
                         ? Icon(
                             Icons.person_outline,
                             color: dark,
@@ -108,7 +110,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                             onLoading: const Center(
                               child: CircularProgressIndicator(),
                             ),
-                          )))),
+                          ))),
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print, avoid_web_libraries_in_flutter
 import 'dart:html';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faani_dashboard/constants/constants.dart';
 import 'package:faani_dashboard/controllers/logged_user_controller.dart';
 import 'package:faani_dashboard/controllers/register_controller.dart';
@@ -16,6 +17,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import '../../env/env.dart';
 import '../../helpers/authentication.dart';
 import '../../helpers/custom_auth.dart';
+import '../../models/logged_user.dart';
 
 class AuthenticationPage extends StatefulWidget {
   const AuthenticationPage({Key? key}) : super(key: key);
@@ -88,6 +90,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
   @override
   void initState() {
     super.initState();
+    // Initialize LoggedUserController
+    LoggedUserController loggedUserController = Get.put(LoggedUserController());
     checkAdmin();
   }
 
@@ -255,8 +259,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       setState(() {
                         msg = Constants.loginOk;
                       });
-                      menuController
-                          .changeActiveItemTo(overViewPageDisplayName);
+                      menuController.changeActiveItemTo(homePageDisplayName);
                       Get.offAllNamed(rootRoute);
                     }
 

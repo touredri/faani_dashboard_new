@@ -21,14 +21,24 @@ class MenuController extends GetxController {
 
   Widget returnIconFor(String itemName) {
     switch (itemName) {
-      case overViewPageDisplayName:
-        return customIcon(Icons.trending_up, itemName);
+      // case overViewPageDisplayName:
+      //   return customIcon(Icons.trending_up, itemName);
       case productsPageDisplayName:
         return customIcon(Icons.shopping_bag_outlined, itemName);
       case clientsPageDisplayName:
         return customIcon(Icons.people_alt_outlined, itemName);
       case authenticationDisplayName:
         return customIcon(Icons.login, itemName);
+      case homePageDisplayName:
+        return customIcon(Icons.home_outlined, itemName);
+      case modelePageDisplayName:
+        return customIcon(Icons.shopping_bag_outlined, itemName);
+      case commandePageDisplayName:
+        return customIcon(Icons.shopping_cart, itemName);
+      case tailleurPageDisplayName:
+        return customIcon(Icons.straighten, itemName);
+      case clientPageDisplayName:
+        return customIcon(Icons.person, itemName);
       default:
         return customIcon(Icons.exit_to_app, itemName);
     }

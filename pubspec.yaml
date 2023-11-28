@@ -51,6 +51,8 @@ dependencies:
   firebase_storage: ^11.5.2
   cloud_firestore: ^4.13.2
   cloud_firestore_web: ^3.8.6
+  dio: ^5.3.4
+  cached_network_image: ^3.3.0
 
 dev_dependencies:
   flutter_test:

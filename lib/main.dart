@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'controllers/logged_user_controller.dart';
+
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -26,6 +28,7 @@ void main(List<String> args) async {
           storageBucket: Env.storageBucket));
   Get.put(menu_controller.MenuController());
   Get.put(NavigationController());
+  Get.put(LoggedUserController());
   runApp(const MyApp());
 }
 

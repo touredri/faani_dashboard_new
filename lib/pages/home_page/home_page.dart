@@ -1,18 +1,21 @@
-//import 'package:faani_dashboard/constants/controllers.dart';
+import 'package:faani_dashboard/pages/home_page/widgets/most_favorite.dart';
+import 'package:flutter/material.dart';
 import 'package:faani_dashboard/helpers/responsiveness.dart';
-import 'package:faani_dashboard/pages/overview/widgets/top_selling_products.dart';
+// import 'package:faani_dashboard/pages/overview/widgets/top_selling_products.dart';
 import 'package:faani_dashboard/pages/overview/widgets/cards_large.dart';
 import 'package:faani_dashboard/pages/overview/widgets/cards_medium.dart';
 import 'package:faani_dashboard/pages/overview/widgets/cards_small.dart';
 import 'package:faani_dashboard/pages/overview/widgets/revenue_section_large.dart';
 import 'package:faani_dashboard/pages/overview/widgets/revenue_section_small.dart';
-//import 'package:faani_dashboard/widgets/custom_text.dart';
-import 'package:flutter/material.dart';
-//import 'package:get/get.dart';
 
-class OverviewPage extends StatelessWidget {
-  const OverviewPage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,6 +48,7 @@ class OverviewPage extends StatelessWidget {
           if (ResponsiveWidget.isSmallScreen(context))
             const RevenueSectionSmall(),
           // const AvailableDriversTable(),
+          const MostFavoriteModele(),
         ])),
       ],
     );

@@ -1,28 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:faani_dashboard/env/env.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+
+import '../controllers/logged_user_controller.dart';
+import '../models/logged_user.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-Future userSignup(String email, String password) async {
-  try {
-    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return userCredential.user;
-  } catch (e) {
-    return e.toString();
-  }
-}
-
 Future<User?> userLogin(String email, String password) async {
   try {
+    // Initialize LoggedUserController
+    LoggedUserController loggedUserController = Get.put(LoggedUserController());
     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
-    return userCredential.user!;
+    // LoggedUser user = LoggedUser();
+    if (userCredential.user != null) {
+      // await FirebaseFirestore.instance
+      //     .collection('admin')
+      //     .doc(email)
+      //     .get()
+      //     .then((doc) {
+      //   user.uid = userCredential.user!.uid;
+      //   user.email = userCredential.user!.email;
+      //   user.name = doc['name'];
+      //   user.imageUrl = doc['imageUrl'] ?? '';
+      //   loggedUserController.loggedUser = user;
+      // });
+    }
+    // LoggedUser user = LoggedUser();
+    // user.uid = userCredential.user!.uid;
+    // user.email = userCredential.user!.email;
+    // user.name = userCredential.user!.displayName;
+    // user.imageUrl = userCredential.user!.photoURL;
+    // loggedUserController.loggedUser = user;
+    return userCredential.user;
   } catch (e) {
     return null;
   }
@@ -42,16 +56,13 @@ Future<void> isAdmin(String userEmail) async {
       password: Env.adminPassword,
     );
     if (userCredential.user != null) {
-        await FirebaseFirestore.instance
-            .collection('admin')
-            .doc(userEmail)
-            .set({
-          'role': 'admin',
-          'email': userEmail,
-          'name': 'Drissa',
-          'surname': 'Touré'
-        });
-        await userCredential.user!.linkWithPhoneNumber('+22393734481');
+      await FirebaseFirestore.instance.collection('admin').doc(userEmail).set({
+        'role': 'admin',
+        'email': userEmail,
+        'name': 'Drissa',
+        'surname': 'Touré'
+      });
+      await userCredential.user!.linkWithPhoneNumber('+22393734481');
     }
   }
 }

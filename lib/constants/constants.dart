@@ -9,6 +9,10 @@ class Constants {
   static const String valueOfStock = "Value of stock:";
   static const String productsCount = "Products count:";
   static const String customerCount = "Customer count:";
+  static const String totalTailleur = "Nombre Tailleur:";
+  static const String totalCommande = "Total Commande:";
+  static  const String totalClient = "Client inscrit:";
+  static const String totalModele = "Total Modèle:";
 
   static const String loginOk = "User logged in successfully!";
   static const String registerOk = "Account created successfully!";
