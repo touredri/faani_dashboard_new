@@ -23,7 +23,7 @@ class _ModelePageState extends State<ModelePage>
     with SingleTickerProviderStateMixin {
   String? selectedFilter;
   List<Modele> models = [];
-  List<Tendance> tendances = [];
+  // List<Tendance> tendances = [];
   final ModeleController modeleController = Get.put(ModeleController());
   final TendanceController tendanceController = Get.put(TendanceController());
   TextEditingController _detailsController = TextEditingController();
@@ -77,7 +77,7 @@ class _ModelePageState extends State<ModelePage>
     modeleController.fetchModeles();
     tendanceController.fetchTendance();
     models = modeleController.modeles;
-    tendances = tendanceController.tendances;
+    // tendances = tendanceController.tendances;
   }
 
   @override
@@ -298,8 +298,9 @@ class _ModelePageState extends State<ModelePage>
                 //     }
                 //   },
                 // ),
+                GetBuilder<TendanceController>(init: TendanceController(), id: 'tendance', builder: (controller) => 
                 GridView.builder(
-                  itemCount: tendances.length,
+                  itemCount: controller.tendances.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,
                     mainAxisSpacing: 10.0, // Add this line
@@ -318,17 +319,17 @@ class _ModelePageState extends State<ModelePage>
                                 children: <Widget>[
                                   Expanded(
                                     child:
-                                        Image.network(tendances[index].image),
+                                        Image.network(controller.tendances[index].image),
                                   ),
-                                  Text(tendances[index].details!),
+                                  Text(controller.tendances[index].details!),
                                 ],
                               ),
                               actions: <Widget>[
                                 TextButton(
                                   child: const Text('Supprimer'),
                                   onPressed: () {
-                                    tendanceController
-                                        .deleteTendance(tendances[index].id!);
+                                    controller
+                                        .deleteTendance(controller.tendances[index].id!);
                                     Navigator.of(context).pop();
                                     setState(() {});
                                   },
@@ -339,11 +340,12 @@ class _ModelePageState extends State<ModelePage>
                         );
                       },
                       child: Image.network(
-                        tendances[index].image,
+                        controller.tendances[index].image,
                         fit: BoxFit.fill,
                       ),
                     );
                   },
+                ),
                 ),
               ],
             ),

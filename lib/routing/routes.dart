@@ -3,11 +3,11 @@ const rootRoute = "/homepage";
 const overViewPageDisplayName = "Overview";
 const overViewPageRoute = "/overview";
 
-const productsPageDisplayName = "Products";
-const productsPageRoute = "/products";
+// const productsPageDisplayName = "Products";
+// const productsPageRoute = "/products";
 
-const clientsPageDisplayName = "Clients";
-const clientsPageRoute = "/clients";
+// const clientsPageDisplayName = "Clients";
+// const clientsPageRoute = "/clients";
 
 const authenticationDisplayName = "Log Out";
 const authenticationPageRoute = "/auth";
@@ -41,7 +41,7 @@ List<MenuItem> sideMenuItems = [
   MenuItem(name: clientPageDisplayName, route: clientPageRoute),
   MenuItem(name: modelePageDisplayName, route: modelePageRoute),
   MenuItem(name: commandePageDisplayName, route: commandePageRoute),
-  MenuItem(name: productsPageDisplayName, route: productsPageRoute),
-  MenuItem(name: clientsPageDisplayName, route: clientsPageRoute),
+  // MenuItem(name: productsPageDisplayName, route: productsPageRoute),
+  // MenuItem(name: clientsPageDisplayName, route: clientsPageRoute),
   MenuItem(name: authenticationDisplayName, route: authenticationPageRoute),
 ];

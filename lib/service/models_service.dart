@@ -12,7 +12,7 @@ class ModeleService extends GetConnect {
   Future<Modele> getModele(String id) async {
     final doc = await firestore.collection('modele').doc(id).get();
     if (doc.exists) {
-      return Modele.fromMap(doc.data()!, doc.reference);
+      return Modele.fromMap(doc.data()!, doc.reference);  
     } else {
       throw Exception('Document does not exist');
     }

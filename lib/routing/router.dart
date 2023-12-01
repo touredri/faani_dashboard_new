@@ -14,10 +14,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
     // case overViewPageRoute:
     //   return getPageRoute(const OverviewPage());
-    case productsPageRoute:
-      return getPageRoute(const ProductsPage());
-    case clientsPageRoute:
-      return getPageRoute(const ClientsPage());
+    // case productsPageRoute:
+    //   return getPageRoute(const ProductsPage());
+    // case clientsPageRoute:
+    //   return getPageRoute(const ClientsPage());
     case authenticationPageRoute:
       return getPageRoute(const AuthenticationPage());
     case homePageRoute:

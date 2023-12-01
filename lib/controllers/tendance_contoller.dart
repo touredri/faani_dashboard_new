@@ -11,9 +11,10 @@ class TendanceController extends GetxController {
   void fetchTendance() async {
     try {
       isLoading(true);
-      TendanceService().fetchTendance().listen((tendances) {
-        if (tendances.isNotEmpty) {
-          this.tendances.assignAll(tendances);
+      TendanceService().fetchTendance().listen((tendance) {
+        if (tendance.isNotEmpty) {
+          tendances.assignAll(tendance);
+          update(['tendance']);
         }
       });
     } finally {
