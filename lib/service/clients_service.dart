@@ -10,4 +10,18 @@ class ClientService {
             .map((doc) => Client.fromMap(doc.data(), doc.reference))
             .toList());
   }
+
+  Future<void> deleteClient(String id) {
+    return firestore
+        .collection('client')
+        .doc(id)
+        .delete()
+        .then((value) => print("Client Deleted"))
+        .catchError((error) => print("Failed to delete client: $error"));
+  }
+  
+    Future<Client> getClient(String id) {
+    return firestore.collection('client').doc(id).get().then(
+        (value) => Client.fromMap(value.data() as Map<String, dynamic>, value.reference));
+  }
 }

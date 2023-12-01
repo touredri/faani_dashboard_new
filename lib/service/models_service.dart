@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/modele_modele.dart';
@@ -10,7 +11,11 @@ class ModeleService extends GetConnect {
 
   Future<Modele> getModele(String id) async {
     final doc = await firestore.collection('modele').doc(id).get();
-    return Modele.fromMap(doc.data()!, doc.reference);
+    if (doc.exists) {
+      return Modele.fromMap(doc.data()!, doc.reference);
+    } else {
+      throw Exception('Document does not exist');
+    }
   }
 
   Stream<List<Modele>> fetchModeles() {
@@ -23,9 +28,17 @@ class ModeleService extends GetConnect {
     });
   }
 
+  // Supprime le document dans la collection "modele"
   Future<void> removeModele(String id) async {
-    final doc = await firestore.collection('modele').doc(id).get();
-    return doc.reference.delete();
+    final docRef = firestore.collection('modele').doc(id);
+    final doc = await docRef.get();
+    List<String> imagePath = List<String>.from(doc.data()!['imagePath']);
+
+    for (String path in imagePath) {
+      await FirebaseStorage.instance.ref(path).delete();
+    }
+    await docRef.delete();
+    print('Document supprimé');
   }
 
   Future<void> updateModele(Modele modele) async {
@@ -51,8 +64,8 @@ class ModeleService extends GetConnect {
 
     // Sort the models by count in descending order
     List<Map<String, int>> topModels = modelCountMap.entries
-      .map((e) => {e.key: e.value})
-      .toList()
+        .map((e) => {e.key: e.value})
+        .toList()
       ..sort((a, b) => b.values.first.compareTo(a.values.first));
 
     // Take the top five models

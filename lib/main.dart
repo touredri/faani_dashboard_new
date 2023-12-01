@@ -4,7 +4,7 @@ import 'package:faani_dashboard/controllers/menu_controller.dart'
     as menu_controller;
 import 'package:faani_dashboard/controllers/navigation_controller.dart';
 import 'package:faani_dashboard/env/env.dart';
-import 'package:faani_dashboard/firebase_options.dart';
+// import 'package:faani_dashboard/firebase_options.dart';
 import 'package:faani_dashboard/layout.dart';
 import 'package:faani_dashboard/pages/404/error_page.dart';
 import 'package:faani_dashboard/pages/authentication/authentication.dart';

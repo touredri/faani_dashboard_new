@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'widget/client_list.dart';
+
 class ClientPage extends StatefulWidget {
   const ClientPage({super.key});
 
@@ -10,6 +12,16 @@ class ClientPage extends StatefulWidget {
 class _ClientPageState extends State<ClientPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      children: [
+        Expanded(
+          child: ListView(
+            children: const [
+              ListClient(),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

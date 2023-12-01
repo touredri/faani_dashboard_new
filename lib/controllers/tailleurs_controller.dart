@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class TailleurController extends GetxController {
   var tailleur = <Tailleur>[].obs;
+  var totalTailleurFavorites = 0.obs;
   var isLoading = true.obs;
 
   void fetchTailleurs() async {
@@ -14,6 +15,26 @@ class TailleurController extends GetxController {
           this.tailleur.assignAll(tailleur);
         }
         // isLoading(false);
+      });
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void deleteTailleur(String id) async {
+    try {
+      isLoading(true);
+      await TaiileurService().deleteTailleur(id);
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void totalTailleurFavorite(String id) async {
+    try {
+      isLoading(true);
+      TaiileurService().totalTailleurFavorite(id).listen((event) { 
+        totalTailleurFavorites(event);
       });
     } finally {
       isLoading(false);

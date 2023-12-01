@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Client {
+  String? id;
   String nomPrenom;
   int telephone;
   String genre;
 
-  Client({required this.nomPrenom, required this.telephone, required this.genre});
+  Client({required this.nomPrenom, required this.telephone, required this.genre, required this.id});
 final firestore = FirebaseFirestore.instance;
 
   // factory constructor fromMap
   factory Client.fromMap(Map<String, dynamic> map, DocumentReference docRef) {
     return Client(
+      id: docRef.id,
       nomPrenom: map['nomPrenom'] as String,
       telephone: map['telephone'] as int,
       genre: map['genre'] as String,

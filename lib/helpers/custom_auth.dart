@@ -18,24 +18,7 @@ Future<User?> userLogin(String email, String password) async {
     );
     // LoggedUser user = LoggedUser();
     if (userCredential.user != null) {
-      // await FirebaseFirestore.instance
-      //     .collection('admin')
-      //     .doc(email)
-      //     .get()
-      //     .then((doc) {
-      //   user.uid = userCredential.user!.uid;
-      //   user.email = userCredential.user!.email;
-      //   user.name = doc['name'];
-      //   user.imageUrl = doc['imageUrl'] ?? '';
-      //   loggedUserController.loggedUser = user;
-      // });
     }
-    // LoggedUser user = LoggedUser();
-    // user.uid = userCredential.user!.uid;
-    // user.email = userCredential.user!.email;
-    // user.name = userCredential.user!.displayName;
-    // user.imageUrl = userCredential.user!.photoURL;
-    // loggedUserController.loggedUser = user;
     return userCredential.user;
   } catch (e) {
     return null;

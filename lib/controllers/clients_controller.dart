@@ -13,8 +13,17 @@ class ClientController extends GetxController {
         if (clients.isNotEmpty) {
           this.clients.assignAll(clients);
         }
-        // isLoading(false);
       });
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  void deleteClient(String id) async {
+    try {
+      isLoading(true);
+      await ClientService().deleteClient(id);
+      fetchClient();
     } finally {
       isLoading(false);
     }
