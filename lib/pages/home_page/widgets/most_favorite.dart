@@ -25,7 +25,7 @@ class _MostFavoriteModeleState extends State<MostFavoriteModele> {
         MediaQuery.of(context).size.width ~/ 200; // Adjust 200 to your needs
     return Obx(() {
       if (modeleController.isLoading.value) {
-        return CircularProgressIndicator();
+        return const Center(child: CircularProgressIndicator());
       } else {
         return Column(
           children: [
